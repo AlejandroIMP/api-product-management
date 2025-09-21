@@ -48,6 +48,8 @@ namespace ProductManagement.Controllers
                 Price = addProductDto.Price,
                 Stock = addProductDto.Stock,
                 IsActive = addProductDto.IsActive,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
             };
 
             try
@@ -61,6 +63,40 @@ namespace ProductManagement.Controllers
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        [HttpPut]
+        [Route("{id:guid}")]
+        public IActionResult UpdateProduct(Guid id, UpdateProductDto updateProductDto)
+        {
+            var product = _dbContext.Products.Find(id);
+            if (product is null)
+            {
+                return NotFound();
+            }
+            product.Name = updateProductDto.Name;
+            product.Description = updateProductDto.Description;
+            product.Price = updateProductDto.Price;
+            product.Stock = updateProductDto.Stock;
+            product.IsActive = updateProductDto.IsActive;
+            product.UpdatedAt = DateTime.UtcNow;
+
+            _dbContext.SaveChanges();
+            return Ok(product);
+        }
+
+        [HttpDelete]
+        [Route("{id:guid}")]
+        public IActionResult DeleteProduct(Guid id)
+        {
+            var product = _dbContext.Products.Find(id);
+            if (product is null)
+            {
+                return NotFound();
+            }
+            _dbContext.Products.Remove(product);
+            _dbContext.SaveChanges();
+            return Ok();
         }
     }
 }
