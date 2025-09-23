@@ -4,7 +4,8 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 
-.gitignore
 .gitattributes
+
+./ProductManagement/appsettings.Development.json
 
 .idea
