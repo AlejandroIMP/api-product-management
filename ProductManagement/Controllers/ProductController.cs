@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProductManagement.Data;
 using ProductManagement.Models;
-using ProductManagement.Models.Entities;
+using ProductManagement.Services;
 
 namespace ProductManagement.Controllers
 {
@@ -9,93 +8,64 @@ namespace ProductManagement.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly IProductService _productService;
 
-        public ProductController(ApplicationDbContext dbContext)
+        public ProductController(IProductService productService)
         {
-            _dbContext = dbContext;
+            _productService = productService;
         }
-        
-        
+
         [HttpGet]
-        public IActionResult GetAllProducts()
+        public async Task<IActionResult> GetAllProducts()
         {
-            var allProducts = _dbContext.Products.ToList();
-            return Ok(allProducts);
+            var products = await _productService.GetAllProducts();
+            return Ok(products);
         }
-        
+
         [HttpGet]
         [Route("{id:guid}")]
-        public IActionResult GetProductById(Guid id)
+        public async Task<IActionResult> GetProductById(Guid id)
         {
-            var product = _dbContext.Products.Find(id);
-
+            var product = await _productService.GetProductById(id);
             if (product is null)
-            {
                 return NotFound();
-            }
-            
+
             return Ok(product);
         }
 
         [HttpPost]
-        public IActionResult AddProduct(AddProductDto addProductDto)
+        public async Task<IActionResult> AddProduct(AddProductDto addProductDto)
         {
-            var productEntity = new Product()
-            {
-                Name = addProductDto.Name,
-                Description = addProductDto.Description,
-                Price = addProductDto.Price,
-                Stock = addProductDto.Stock,
-                IsActive = addProductDto.IsActive,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
-            };
-
             try
             {
-                _dbContext.Products.Add(productEntity);
-                _dbContext.SaveChanges();
-                return Ok(productEntity);
+                var product = await _productService.CreateProduct(addProductDto);
+                return Ok(product);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine(e);
-                throw;
+                return BadRequest("Error creating product");
             }
         }
 
         [HttpPut]
         [Route("{id:guid}")]
-        public IActionResult UpdateProduct(Guid id, UpdateProductDto updateProductDto)
+        public async Task<IActionResult> UpdateProduct(Guid id, UpdateProductDto updateProductDto)
         {
-            var product = _dbContext.Products.Find(id);
+            var product = await _productService.UpdateProduct(id, updateProductDto);
             if (product is null)
-            {
                 return NotFound();
-            }
-            product.Name = updateProductDto.Name;
-            product.Description = updateProductDto.Description;
-            product.Price = updateProductDto.Price;
-            product.Stock = updateProductDto.Stock;
-            product.IsActive = updateProductDto.IsActive;
-            product.UpdatedAt = DateTime.UtcNow;
 
-            _dbContext.SaveChanges();
             return Ok(product);
         }
 
         [HttpDelete]
         [Route("{id:guid}")]
-        public IActionResult DeleteProduct(Guid id)
+        public async Task<IActionResult> DeleteProduct(Guid id)
         {
-            var product = _dbContext.Products.Find(id);
-            if (product is null)
-            {
+            var success = await _productService.DeleteProduct(id);
+            if (!success)
                 return NotFound();
-            }
-            _dbContext.Products.Remove(product);
-            _dbContext.SaveChanges();
+
             return Ok();
         }
     }

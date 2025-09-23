@@ -7,4 +7,5 @@ public class UpdateProductDto
     public decimal Price { get; set; }
     public int Stock { get; set; }
     public bool? IsActive { get; set; }
+    public string? ImageId { get; set; }
 }
