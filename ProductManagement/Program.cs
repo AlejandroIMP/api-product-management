@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Connections;
-using ProductManagement.Middleware;
 using ProductManagement.Extensions;
 using Microsoft.EntityFrameworkCore;
 using ProductManagement.Data;
@@ -32,7 +30,7 @@ builder.Services.AddCors(options =>
             .AllowCredentials();
     });
 });
-
+    
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
     );
@@ -52,13 +50,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseSwagger();
+app.UseSwaggerUI();
+
 app.UseCors(clientPolicy);
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-// app.UseMiddleware<ImageUploadMiddleware>();
 
 app.MapControllers();
 
