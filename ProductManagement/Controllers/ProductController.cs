@@ -16,6 +16,9 @@ namespace ProductManagement.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<AddProductDto>), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> GetAllProducts()
         {
             var products = await _productService.GetAllProducts();
@@ -24,6 +27,10 @@ namespace ProductManagement.Controllers
 
         [HttpGet]
         [Route("{id:guid}")]
+        [ProducesResponseType(typeof(AddProductDto), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> GetProductById(Guid id)
         {
             var product = await _productService.GetProductById(id);
@@ -34,6 +41,9 @@ namespace ProductManagement.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(AddProductDto), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> AddProduct(AddProductDto addProductDto)
         {
             try
@@ -49,6 +59,10 @@ namespace ProductManagement.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
+        [ProducesResponseType(typeof(AddProductDto), 200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> UpdateProduct(Guid id, UpdateProductDto updateProductDto)
         {
             var product = await _productService.UpdateProduct(id, updateProductDto);
@@ -60,12 +74,14 @@ namespace ProductManagement.Controllers
 
         [HttpDelete]
         [Route("{id:guid}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
         public async Task<IActionResult> DeleteProduct(Guid id)
         {
             var success = await _productService.DeleteProduct(id);
-            if (!success)
-                return NotFound();
-
+            if (!success) return NotFound();
             return Ok();
         }
     }
