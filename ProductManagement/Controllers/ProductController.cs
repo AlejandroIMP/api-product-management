@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProductManagement.Models;
-using ProductManagement.Services;
+using ProductManagement.Services.Abstract;
 
 namespace ProductManagement.Controllers
 {

@@ -1,9 +1,10 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.Extensions.Options;
-using ProductManagement.Options;
+using ProductManagement.Services.Abstract;
+using ProductManagement.Services.Options;
 
-namespace ProductManagement.Services;
+namespace ProductManagement.Services.Storage;
 
 public class CloudinaryImageStorage : IImageUpload
 {

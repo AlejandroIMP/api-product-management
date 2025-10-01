@@ -26,7 +26,7 @@ public class SwaggerFileOperationFilter : IOperationFilter
                         Type = "object",
                         Properties = fileParameters.ToDictionary(
                             p => p.Name!,
-                            p => new OpenApiSchema
+                            _ => new OpenApiSchema
                             {
                                 Type = "string",
                                 Format = "binary"

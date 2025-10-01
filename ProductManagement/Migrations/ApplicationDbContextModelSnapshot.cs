@@ -31,6 +31,11 @@ namespace ProductManagement.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("MetadataStatus")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("MetadatosJson")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

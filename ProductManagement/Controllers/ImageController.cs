@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProductManagement.Services;
+using ProductManagement.Services.Abstract;
+using ProductManagement.Services.ImageProcessing;
 
 namespace ProductManagement.Controllers
 {
@@ -29,7 +30,7 @@ namespace ProductManagement.Controllers
             {
                 _logger.LogInformation("Starting image upload...");
 
-                if (image == null || image.Length == 0)
+                if (image.Length == 0)
                 {
                     _logger.LogWarning("No image file provided");
                     return BadRequest("Image file is required.");

@@ -1,4 +1,4 @@
-﻿namespace ProductManagement.Options;
+﻿namespace ProductManagement.Services.Options;
 
 public class CloudinaryOptions
 {

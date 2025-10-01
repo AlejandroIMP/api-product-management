@@ -24,4 +24,12 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Services\Auth\" />
+      <Folder Include="Services\Email\" />
+      <Folder Include="Services\Moderation\" />
+      <Folder Include="Services\Notification\" />
+      <Folder Include="Services\Term\" />
+    </ItemGroup>
+
 </Project>

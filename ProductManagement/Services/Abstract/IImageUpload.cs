@@ -1,7 +1,4 @@
-﻿namespace ProductManagement.Services;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿namespace ProductManagement.Services.Abstract;
 
 public interface IImageUpload
 {
